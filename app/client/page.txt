@@ -1,0 +1,43 @@
+"use client";
+import { useEffect, useState } from "react";
+import { Category } from "@/types/category"; // Import the type
+import Tabs from "@/components/Tabs";
+
+export default function HomePage() {
+  const [categoriesList, setCategories] = useState<Category[]>([]);
+  const [activeCategory, setActiveCategory] = useState(categoriesList[0]); // Default to "Active"
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/categories");
+        const data: Category[] = await response.json();
+        setCategories(data);
+        setActiveCategory(data[0]);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) return <p>Loading categories...</p>;
+
+  return (
+    <section id="products">
+        <div className="products-container container">
+            {/* Tabs Navigation */}
+            <div className="products-categories">
+                <Tabs categories={categoriesList} onCategorySelect={setActiveCategory} />
+            </div>
+            <div className="product-presentation">
+              
+            </div>
+        </div>
+    </section>
+  );
+}

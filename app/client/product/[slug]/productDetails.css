@@ -1,0 +1,64 @@
+.product-details-container{
+    padding: 1.5rem 0;
+}
+
+.product-details-presnetation {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    align-items: center;
+}
+
+.product-info h1{
+    font-size: clamp(0.9rem, calc(2rem + 1vw), 3rem);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-shadow: 2px 2px #333;
+}
+
+.quantity-selector{
+    background-color: #eee;
+    border-radius: 5px;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    margin: 10px 0;
+    border-radius: 7px;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.quantity-selector button{
+    background-color: orange;
+    color: #fff;
+    padding: 5px;
+    border: none;
+    width: 50px;
+    transition: all .7s ease-in-out;
+}
+
+.quantity-selector button:focus,
+.quantity-selector button:hover{
+    background-color: rgba(161, 120, 44, 0.527)
+
+}
+
+input.input-qunatity {
+    border: none;
+    background: none;
+    width: 30px;
+    text-align: center;
+    outline: none;
+}
+
+.actions{
+    display: flex;
+    gap: 15px;
+    justify-content: end;
+}
+
+.btn{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
