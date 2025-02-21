@@ -22,6 +22,34 @@ a{
 
 /* ======= Header =========== */
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shopping-cart-action p{
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 7px;
+  position: relative;
+}
+
+span.cart-quantity {
+  position: absolute;
+  top: -12px;
+  right: -17px;
+  border-radius: 50%;
+  background: orange;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+}
+
 .web-logo{
     font-family: var(--primary-font);
     color: #e7480f;
