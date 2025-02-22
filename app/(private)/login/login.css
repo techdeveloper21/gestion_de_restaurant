@@ -1,0 +1,36 @@
+.login-form-presnetation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.login-from-inputs {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-groupe {
+    display: flex;
+    justify-content: center;
+}
+
+.input-group-text{
+    outline: none;
+}
+
+.btn-login{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

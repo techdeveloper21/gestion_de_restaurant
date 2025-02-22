@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <div className="web-title">
                   <h1 className="web-logo d-flex justify-content-center gap-3">
                     <i className="fa fa-utensils"></i>
-                      Burger Code 
+                      شواي السطايفي 
                     <i className="fa fa-utensils"></i>
                   </h1>
                 </div>

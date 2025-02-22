@@ -1,0 +1,52 @@
+.admin-home-product-presentation {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .product-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .nav-tabs {
+    margin-bottom: 15px;
+  }
+  
+  .nav-link {
+    cursor: pointer;
+  }
+  
+  .table {
+    text-align: center;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  .pagination {
+    margin-top: 15px;
+  }
+
+  .table-action {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    text-align: center;
+  }
+
+  .table-action button{
+    margin: 0;
+  }
+
+  .table-header-presentation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  

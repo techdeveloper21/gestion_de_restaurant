@@ -47,12 +47,17 @@ export async function getProducts(): Promise<Product[]> {
     return product[0];
   }
 
+// Insert product into database
 export async function addProduct(product: Product) {
-  await db.query(
-    "INSERT INTO products (product_id, product_slug, product_name, description, price, category, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [product.product_id, product.product_slug, product.product_name, product.description, product.price, product.category, product.status]
+
+  const result = await db.query(
+    "INSERT INTO products (product_slug, product_name, description, price, category, status) VALUES (?, ?, ?, ?, ?, ?)",
+    [product.product_slug, product.product_name, product.description, product.price, product.category, product.status]
   );
-  await redis.del(CACHE_KEY);
+
+  await redis.del(CACHE_KEY); // Clear cache
+
+  return result[0].insertId; // Return generated product_id
 }
 
 export async function updateProduct(slug: string, updates: Partial<Product>) {
@@ -66,4 +71,15 @@ export async function updateProduct(slug: string, updates: Partial<Product>) {
 export async function deleteProduct(slug: string) {
   await db.query("DELETE FROM products WHERE product_slug = ?", [slug]);
   await redis.del(CACHE_KEY);
+}
+
+// Insert image into `images` table and return `image_id`
+export async function addImage(imageBuffer: Buffer) {
+  const result = await db.query("INSERT INTO images (image) VALUES (?)", [imageBuffer]);
+  return result[0].insertId; // Return image_id
+}
+
+// Insert into `product_images` table (link image to product)
+export async function linkProductImage(product_slug: string, image_id: number) {
+  await db.query("INSERT INTO product_images (product_slug, image_id) VALUES (?, ?)", [product_slug, image_id]);
 }
