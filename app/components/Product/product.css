@@ -64,6 +64,13 @@
     text-shadow: 2px 2px #333;
 }
 
+.btn-add-to-cart {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .btn-order:hover{
     background-color: #9e492a8f;
     color: #fff;

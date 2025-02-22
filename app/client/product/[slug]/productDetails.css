@@ -10,6 +10,20 @@
     align-items: center;
 }
 
+.product-image{
+    display: flex;
+    justify-content: center;
+}
+
+.prdoduct-details-image{
+    position: relative;
+}
+
+.product-detials-img{
+    background: #ffd3018a;
+    border-radius: 10px;
+}
+
 .product-info h1{
     font-size: clamp(0.9rem, calc(2rem + 1vw), 3rem);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;

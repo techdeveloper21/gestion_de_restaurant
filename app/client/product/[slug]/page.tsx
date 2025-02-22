@@ -76,12 +76,18 @@ export default function ProductDetails() {
       <div className="product-details-presnetation row">
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 product-details-presnetation-cart">
           <div className="product-images">
-            <Image
-              src={`data:image/png;base64,${product.images[0]?.image}`}
-              alt={product.product_name}
-              width={400}
-              height={400}
-            />
+            <div className="product-image">
+              <div className="prdoduct-details-image">
+                <Image
+                  src={`data:image/png;base64,${product.images[0]?.image}`}
+                  className="product-detials-img"
+                  alt={product.product_name}
+                  width={400}
+                  height={400}
+                />
+                <div className="price product-details-price">{product.price}DA</div>
+              </div>
+            </div>
             <div className="image-carousel">
               {product.images.map((img, index) => (
                 <Image
@@ -100,7 +106,6 @@ export default function ProductDetails() {
           <div className="product-info">
             <h1>{product.product_name}</h1>
             <p>{product.description}</p>
-            <div className="price">{product.price}DA</div>
             <div className="quantity-selector">
               <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>-</button>
               <input

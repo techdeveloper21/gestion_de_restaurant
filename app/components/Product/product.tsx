@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
         <div className="caption">
             <h4>{product.product_name}</h4>
             <p>{product.description}</p>
-            <Link href={`/client/product/${product.product_slug}`} className="btn btn-order">
+            <Link href={`/client/product/${product.product_slug}`} className="btn btn-order btn-add-to-cart">
                 <span className="fa fa-shopping-cart"></span> 
                 Commander
             </Link>

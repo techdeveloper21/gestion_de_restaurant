@@ -4,7 +4,10 @@ import bcrypt from "bcryptjs";
 export async function getUserByEmail(email: string) {
   const [user] = await db.query("SELECT * FROM user WHERE email = ?", [email]);
 
-  return user || null;
+  console.log('getting user using email');
+  console.log(user);
+
+  return user[0] || null;
 }
 
 export async function createUser(username: string, email: string) {

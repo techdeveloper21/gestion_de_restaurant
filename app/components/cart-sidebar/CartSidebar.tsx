@@ -9,7 +9,6 @@ import Image from "next/image";
 import "./CartSidebar.css";
 
 export default function CartSidebar({ isOpen, toggleCart }: { isOpen: boolean; toggleCart: () => void }) {
-    toast.configure();
 
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.items);
@@ -26,9 +25,6 @@ export default function CartSidebar({ isOpen, toggleCart }: { isOpen: boolean; t
       });
 
       const { user_id } = await userRes.json();
-
-      console.log('User created');
-      console.log(user_id);
 
       await fetch("/api/cart", {
         method: "POST",
@@ -76,7 +72,16 @@ export default function CartSidebar({ isOpen, toggleCart }: { isOpen: boolean; t
                     <button onClick={() => dispatch(updateCartQuantity({ slug: item.product.product_slug, quantity: item.quantity + 1 }))}>+</button>
                   </div>
                 </div>
-                <button className="remove-btn" onClick={() => dispatch(removeFromCart(item.product.product_slug))}><i className="fa-solid fa-trash-can"></i></button>
+                <button 
+                  className="remove-btn" 
+                  onClick={() => { 
+                      dispatch(removeFromCart(item.product.product_slug))
+                      // ✅ Show toast when order is confirmed
+                      toast.success(`${item.product.product_slug} removed successfully!`);
+                      }}
+                  >
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
               </div>
             ))
           )}
