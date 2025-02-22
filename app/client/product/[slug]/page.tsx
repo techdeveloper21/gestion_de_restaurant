@@ -7,11 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCartQuantity } from "@/redux/slices/cartSlice";
 import { RootState } from "@/redux/store"; // ✅ Import Redux state
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Image from "next/image";
 import "./productDetails.css";
 import Link from "next/link";
 
+
 export default function ProductDetails() {
+    
   const { slug } = useParams(); // ✅ Get the product slug
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -32,13 +37,16 @@ export default function ProductDetails() {
 
   const handleAddToCart = () => {
     if (product) {
-      const existingItem = cart.find((item) => item.product.product_slug === product.product_slug);
+        const existingItem = cart.find((item) => item.product.product_slug === product.product_slug);
 
-      if (existingItem) {
-        dispatch(updateCartQuantity({ slug: product.product_slug, quantity })); // ✅ Update quantity
-      } else {
-        dispatch(addToCart({ product, quantity })); // ✅ Add new product
-      }
+        if (existingItem) {
+          dispatch(updateCartQuantity({ slug: product.product_slug, quantity })); // ✅ Update quantity
+        } else {
+          dispatch(addToCart({ product, quantity })); // ✅ Add new product
+        }
+
+        // ✅ Show toast when item is added to cart
+        toast.success(`${product.product_name} added to cart!`);
     }
   };
 

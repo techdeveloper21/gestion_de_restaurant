@@ -13,6 +13,7 @@ import { RootState } from "@/redux/store";
 import ClientProvider from "@/components/ClientProvider";
 import HeaderDropdown from "./components/HeaderDropdown";
 import CartSidebar from "@/components/cart-sidebar/CartSidebar";
+import { ToastContainer } from 'react-toastify';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <ToastContainer position="top-right" autoClose={2000} />
         <ClientProvider>
           <header>
             <div className="container header-container">

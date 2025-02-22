@@ -86,4 +86,8 @@
     color: red;
     cursor: pointer;
   }
+
+  .validate-btn{
+    width: 100%;
+  }
   
