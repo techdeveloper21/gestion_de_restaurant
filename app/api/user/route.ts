@@ -6,7 +6,8 @@ export async function POST(req: Request) {
     const { username, email } = await req.json();
 
     let user = await getUserByEmail(email);
-    if (user.length <=0) {
+    console.log(user);
+    if (!user || user.length <=0) {
       user = await createUser(username, email);
       console.log(user);
     }
