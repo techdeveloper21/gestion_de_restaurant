@@ -11,6 +11,7 @@ import { deleteProductFromState } from "@/redux/slices/productSlice";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 export default function AdminProductTable() {
   const dispatch = useDispatch();
@@ -164,9 +165,9 @@ export default function AdminProductTable() {
                     <button className="btn btn-info btn-sm me-2">
                       <i className="fa fa-eye"></i>
                     </button>
-                    <button className="btn btn-warning btn-sm me-2">
+                    <Link href={`/admin/edit-product/${product.product_slug}`} className="btn btn-warning btn-sm me-2">
                       <i className="fa fa-edit"></i>
-                    </button>
+                    </Link>
                     <button
                       className="btn btn-danger btn-sm"
                       data-bs-toggle="modal"

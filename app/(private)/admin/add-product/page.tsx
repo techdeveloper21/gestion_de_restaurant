@@ -184,7 +184,6 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </button>
               </div>
             ))}
-
             <label className="d-flex align-items-center justify-content-center border rounded shadow-sm m-2" style={{ width: "100px", height: "100px", cursor: "pointer" }}>
               <i className="fa fa-plus fa-2x text-muted"></i>
               <input type="file" className="d-none" onChange={handleImageChange} accept="image/*" />

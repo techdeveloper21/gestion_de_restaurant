@@ -60,12 +60,24 @@ export async function addProduct(product: Product) {
   return result[0].insertId; // Return generated product_id
 }
 
-export async function updateProduct(slug: string, updates: Partial<Product>) {
+export async function updateProduct(updates: Partial<Product>) {
   const updateKeys = Object.keys(updates).map((key) => `${key} = ?`).join(", ");
-  const values = [...Object.values(updates), slug];
+  const values = [...Object.values(updates)];
 
-  await db.query(`UPDATE products SET ${updateKeys} WHERE product_slug = ?`, values);
+  ///console.log(values);
+
+  /// Update product information only product information  
+  const [result]: any = await db.query(
+    `UPDATE products SET ${updateKeys} WHERE product_slug = ?`,
+    [...values, updates.product_slug]
+  );
+
   await redis.del(CACHE_KEY);
+
+  console.log(result);
+
+  return result.affectedRows > 0;
+
 }
 
 export async function deleteProduct(slug: string) {

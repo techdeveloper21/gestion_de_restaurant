@@ -1,4 +1,4 @@
-import { getProducts, addProduct, updateProduct, deleteProduct, linkProductImage, addImage } from "@/services/productService";
+import { getProducts, addProduct, updateProduct, deleteProduct, linkProductImage, addImage, getProductBySlug } from "@/services/productService";
 
 export async function GET() {
   console.log("Products from GET");
@@ -63,10 +63,29 @@ export async function POST(req: Request) {
 }
 
 
+/*
 export async function PUT(req: Request) {
   const { slug, ...updates } = await req.json();
   await updateProduct(slug, updates);
   return Response.json({ message: "Product updated!" });
+}
+*/
+
+export async function PUT(req: Request) {
+  try {
+    const { slug, ...updates } = await req.json();
+    const existingProduct = await getProductBySlug(slug);
+    
+    if (!existingProduct) {
+      return new Response(JSON.stringify({ message: "Product not found" }), { status: 404 });
+    }
+
+    await updateProduct(slug, updates);
+    return Response.json({ message: "Product updated!" });
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return new Response(JSON.stringify({ message: "Failed to update product" }), { status: 500 });
+  }
 }
 
 export async function DELETE(req: Request) {
