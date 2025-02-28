@@ -92,3 +92,10 @@ span.cart-quantity {
   color: #eee !important;
 }
 
+
+.loading-div{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

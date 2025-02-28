@@ -13,3 +13,10 @@ export async function addCartItems(cart_id: number, cartItems: { product_slug: s
   const values = cartItems.map(item => [cart_id, item.product.product_slug, item.quantity]);
   await db.query("INSERT INTO cart_items (cart_id, product_slug, quantity) VALUES ?", [values]);
 }
+
+export async function getCartItemsByCartId(cart_id: number) {
+  console.log(cart_id);
+  const cartItem = await db.query("SELECT * FROM cart_items WHERE cart_id = ?", [cart_id]);
+
+  return cartItem[0] || null;
+}

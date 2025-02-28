@@ -10,6 +10,13 @@ export async function getUserByEmail(email: string) {
   return user[0] || null;
 }
 
+export async function getUserById(user_id:any){
+  
+  const [user] = await db.query("SELECT * FROM user WHERE user_id = ?", [user_id]);
+
+  return user[0] || null;
+}
+
 export async function createUser(username: string, email: string) {
   const hashedPassword = await bcrypt.hash("1234", 10); // Default password
   const result = await db.query(
