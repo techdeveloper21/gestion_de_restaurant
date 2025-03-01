@@ -10,15 +10,8 @@ import { Modal } from "bootstrap";
 import Link from "next/link";
 
 import { Spinner } from "react-bootstrap";
-import { User } from "@/types/user";
-import { Order } from "@/types/order";
+import { OrderWithUser} from "@/types/order-with-user";
 import { Product } from "@/types/product";
-
-
-interface Orders {
-  order: Order,
-  user: User
-}
 
 interface selectedOrderItemProp{
   cart_id: number,
@@ -28,7 +21,7 @@ interface selectedOrderItemProp{
 
 
 export default function Table({ orders, changeOrderStatus }: { 
-  orders: Orders[]; 
+  orders: OrderWithUser[]; 
   changeOrderStatus: (index: number) => void; 
 }) {
 
@@ -36,7 +29,7 @@ export default function Table({ orders, changeOrderStatus }: {
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage, setOrdersPerPage] = useState(5); // Default 5
 
-  const [selectedOrder, setSelectedOrder] = useState<Orders | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderWithUser | null>(null);
 
   useEffect(() => {
     if (selectedOrder) {
@@ -48,7 +41,7 @@ export default function Table({ orders, changeOrderStatus }: {
     }
   }, [selectedOrder]);
 
-  const [filteredOders, setFilteredOders] = useState<any[]>(orders || []);
+  const [filteredOders, setFilteredOders] = useState<OrderWithUser[]>(orders || []);
 
   // Ensure filteredOders updates when orders changes
   useEffect(() => {
@@ -65,13 +58,13 @@ export default function Table({ orders, changeOrderStatus }: {
 
   const [selectedOrderItems, setSelectedOrderItems] = useState<selectedOrderItemProp[] | null>(null);
 
-  async function showOrderDetails(orderItem:Orders){
+  async function showOrderDetails(orderItem:OrderWithUser){
     setSelectedOrder(orderItem);
     try {
       const res = await fetch(`/api/orders/${orderItem.order.cart_id}`);
       if (!res.ok) throw new Error("Failed to fetch product");
 
-      const orderItems: any = await res.json();
+      const orderItems: selectedOrderItemProp[] = await res.json();
       
       setSelectedOrderItems(orderItems);
 
@@ -79,9 +72,6 @@ export default function Table({ orders, changeOrderStatus }: {
       console.error("Error fetching product:", error);
     }
   }
-
-  console.log('selectedOrderItems');
-  console.log(selectedOrderItems);
 
   function calculateTotalePrice(){
     if(selectedOrderItems){
@@ -94,9 +84,9 @@ export default function Table({ orders, changeOrderStatus }: {
     }
   }
 
-  function changeStatus(selectedOrd:Orders){
+  function changeStatus(selectedOrd:OrderWithUser){
     
-    const orderIndex = orders.findIndex((orderElemnts:Orders) => orderElemnts.order.cart_id == selectedOrd.order.cart_id);
+    const orderIndex = orders.findIndex((orderElemnts:OrderWithUser) => orderElemnts.order.cart_id == selectedOrd.order.cart_id);
 
     changeOrderStatus(orderIndex);
   }
@@ -108,13 +98,13 @@ export default function Table({ orders, changeOrderStatus }: {
     if (status === "all") {
         setFilteredOders(orders);
     } else if (status === "clientValidated") {
-        setFilteredOders(orders.filter((order: any) => order.order.client_status === 1 && order.order.admin_status === 0));
+        setFilteredOders(orders.filter((order: OrderWithUser) => order.order.client_status === 1 && order.order.admin_status === 0));
     } else if (status === "adminValidated") {
-        setFilteredOders(orders.filter((order: any) => order.order.client_status === 0 && order.order.admin_status === 1));
+        setFilteredOders(orders.filter((order: OrderWithUser) => order.order.client_status === 0 && order.order.admin_status === 1));
     } else if (status === "fullyValidated") {
-        setFilteredOders(orders.filter((order: any) => order.order.client_status === 1 && order.order.admin_status === 1));
+        setFilteredOders(orders.filter((order: OrderWithUser) => order.order.client_status === 1 && order.order.admin_status === 1));
     } else if (status === "notValidated") {
-        setFilteredOders(orders.filter((order: any) => order.order.client_status === 0 && order.order.admin_status === 0));
+        setFilteredOders(orders.filter((order: OrderWithUser) => order.order.client_status === 0 && order.order.admin_status === 0));
     }
   };
 
@@ -181,7 +171,7 @@ export default function Table({ orders, changeOrderStatus }: {
         </thead>
         <tbody>
           {currentOrders.length > 0 ? (
-            currentOrders.map((orderItem:Orders) => (
+            currentOrders.map((orderItem:OrderWithUser) => (
               <tr key={orderItem.order.cart_id}>
                 <td>
                     {orderItem.user.username}

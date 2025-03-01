@@ -1,5 +1,5 @@
+/*
 import React from "react";
-
 const OrderDetailsModal: React.FC<any> = ({ selectedOrder, onClose }) => {
   return (
     <div
@@ -67,3 +67,4 @@ const OrderDetailsModal: React.FC<any> = ({ selectedOrder, onClose }) => {
 };
 
 export default OrderDetailsModal;
+*/
