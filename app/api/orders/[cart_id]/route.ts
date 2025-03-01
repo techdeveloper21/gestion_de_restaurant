@@ -2,12 +2,8 @@ import { NextRequest } from "next/server";
 import { getCartItemsByCartId } from "@/services/cartService";
 import { getProductBySlug } from "@/services/productService";
 
-interface RouteParams {
-  params: { cart_id: string };
-}
-
-export async function GET(req: NextRequest, context: RouteParams) {  
-    const cartId = parseInt(context.params.cart_id, 10); // Convert string to number
+export async function GET(req: NextRequest, { params }: { params: Record<string, string> }) {  
+    const cartId = parseInt(params.cart_id, 10); // Convert string to number
     if (isNaN(cartId)) return Response.json({ error: "Invalid cart ID" }, { status: 400 });
 
     console.log("Fetching orders products details:", cartId);
