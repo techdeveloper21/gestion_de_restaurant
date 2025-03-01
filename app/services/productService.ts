@@ -40,23 +40,27 @@ export async function getProducts(): Promise<Product[]> {
   return productsWithImages;
 }
 
-  export async function getProductBySlug(slug: string): Promise<Product | null> {
-    // Fetch product details
-    const [product] = await db.query<any[]>("SELECT * FROM products WHERE product_slug = ?", [slug]);
-  
-    if (!product.length) return null;
-  
-    // Fetch product images
-    const [images] = await db.query(
-      "SELECT product_images.image_id, TO_BASE64(image) AS image FROM product_images JOIN images ON product_images.image_id = images.image_id WHERE product_slug = ?",
-      [slug]
-    );
-  
-    // Attach images to the product
-    product[0].images = images;
-  
-    return product[0];
-  }
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  // ✅ Use `Product[] & RowDataPacket[]` instead of `any[]`
+  const [products] = await db.query<ProductWithoutImages[] & RowDataPacket[]>(
+    "SELECT * FROM products WHERE product_slug = ?", 
+    [slug]
+  );
+
+  if (products.length === 0) return null; // Ensure product exists
+
+  // ✅ Fetch product images using correct type
+  const [images] = await db.query<RowDataPacket[]>(
+    "SELECT product_images.image_id, TO_BASE64(image) AS image FROM product_images JOIN images ON product_images.image_id = images.image_id WHERE product_slug = ?",
+    [slug]
+  );
+
+  // ✅ Construct full product object
+  return { 
+    ...products[0], 
+    images: images as { image_id: number; image: string }[] 
+  };
+}
 
 // Insert product into database
 export async function addProduct(product: Product) {

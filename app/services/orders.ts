@@ -1,7 +1,6 @@
 import db from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { getUserById } from "./userService";
-import { Order } from "@/types/order";
 import { OrderWithUser } from "@/types/order-with-user";
 
 const CACHE_KEY = "orders";
