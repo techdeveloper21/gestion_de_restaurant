@@ -6,8 +6,6 @@ import { Product } from "@/types/product";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "@/redux/slices/categorySlice";
 import { RootState } from "@/redux/store";
-import { setProducts } from "@/redux/slices/productSlice";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function EditProduct() {

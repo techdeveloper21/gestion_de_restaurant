@@ -2,7 +2,6 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
 import { RootState } from "@/redux/store";
 import { setOrders, updateOrderStatusByOrderIndex } from "@/redux/slices/orderSlice";
 import Table from "../../../components/table/Table";
@@ -12,8 +11,6 @@ import Table from "../../../components/table/Table";
 export default function OrdersPage() {
 
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
-
     
     const ordersList = useSelector((state: RootState) => state.orders.items);
 

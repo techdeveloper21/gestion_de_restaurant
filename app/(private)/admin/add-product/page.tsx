@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setCategories } from "@/redux/slices/categorySlice";
-import { Category } from "@/types/category";
 import { setProducts } from "@/redux/slices/productSlice"; // Import setProducts action
 
 
