@@ -5,21 +5,38 @@ import { useEffect, useState } from "react";
 
 import "./table.css";
 
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Modal } from "bootstrap";
 import Link from "next/link";
 
 import { Spinner } from "react-bootstrap";
+import { User } from "@/types/user";
+import { Order } from "@/types/order";
+import { Product } from "@/types/product";
 
 
-export default function Table({orders, changeOrderStatus} : { orders: any, changeStatus: (index: any) => void }) {
+interface Orders {
+  order: Order,
+  user: User
+}
+
+interface selectedOrderItemProp{
+  cart_id: number,
+  quantity: number,
+  product: Product
+}
+
+
+export default function Table({ orders, changeOrderStatus }: { 
+  orders: Orders[]; 
+  changeOrderStatus: (index: number) => void; 
+}) {
 
   // Component State
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage, setOrdersPerPage] = useState(5); // Default 5
 
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Orders | null>(null);
 
   useEffect(() => {
     if (selectedOrder) {
@@ -35,20 +52,10 @@ export default function Table({orders, changeOrderStatus} : { orders: any, chang
 
   // Ensure filteredOders updates when orders changes
   useEffect(() => {
-    console.log("orders updated:", orders);
     if (orders && orders.length > 0) {
       setFilteredOders(orders);
     }
   }, [orders]);
-
-  console.log('filteredOders');
-  console.log(filteredOders);
-
-  const handleOpenModal = (order: any) => {
-    setSelectedOrder(null); // Reset first
-    setTimeout(() => setSelectedOrder(order), 0); // Delay setting order
-  };
-
 
   // Pagination Logic
   const indexOfLastOrder = currentPage * ordersPerPage; /* = 1 * 5 = 5 */
@@ -56,18 +63,15 @@ export default function Table({orders, changeOrderStatus} : { orders: any, chang
   const currentOrders = filteredOders.slice(indexOfFirstOrder, indexOfLastOrder);
   const [activeFilter, setActiveFilter] = useState("all"); // Default: show all
 
-  const [selectedOrderItems, setSelectedOrderItems] = useState(null);
+  const [selectedOrderItems, setSelectedOrderItems] = useState<selectedOrderItemProp[] | null>(null);
 
-  async function showOrderDetails(orderItem:any){
+  async function showOrderDetails(orderItem:Orders){
     setSelectedOrder(orderItem);
     try {
       const res = await fetch(`/api/orders/${orderItem.order.cart_id}`);
       if (!res.ok) throw new Error("Failed to fetch product");
 
       const orderItems: any = await res.json();
-
-      console.log('orderItems');
-      console.log(orderItems);
       
       setSelectedOrderItems(orderItems);
 
@@ -75,6 +79,9 @@ export default function Table({orders, changeOrderStatus} : { orders: any, chang
       console.error("Error fetching product:", error);
     }
   }
+
+  console.log('selectedOrderItems');
+  console.log(selectedOrderItems);
 
   function calculateTotalePrice(){
     if(selectedOrderItems){
@@ -87,12 +94,9 @@ export default function Table({orders, changeOrderStatus} : { orders: any, chang
     }
   }
 
-  function changeStatus(selectedOrd:any){
+  function changeStatus(selectedOrd:Orders){
     
-    let orderIndex = orders.findIndex((orderElemnts:any) => orderElemnts.order.cart_id == selectedOrd.order.cart_id);
-    //console.log(orders); [{ order: , user: }]
-    //console.log(selectedOrd); {order: , user}
-    //console.log('changeStatus' + orderIndex);
+    const orderIndex = orders.findIndex((orderElemnts:Orders) => orderElemnts.order.cart_id == selectedOrd.order.cart_id);
 
     changeOrderStatus(orderIndex);
   }
@@ -177,7 +181,7 @@ export default function Table({orders, changeOrderStatus} : { orders: any, chang
         </thead>
         <tbody>
           {currentOrders.length > 0 ? (
-            currentOrders.map((orderItem:any) => (
+            currentOrders.map((orderItem:Orders) => (
               <tr key={orderItem.order.cart_id}>
                 <td>
                     {orderItem.user.username}
@@ -200,7 +204,7 @@ export default function Table({orders, changeOrderStatus} : { orders: any, chang
                       className="btn btn-danger btn-sm"
                       data-bs-toggle="modal" 
                       data-bs-target="#orderDetailsModal"
-                      onClick={() => setSelectedOrder(orderItem.order)}
+                      onClick={() => setSelectedOrder(orderItem)}
                     >
                       <i className="fa fa-trash"></i>
                     </button>
@@ -410,7 +414,7 @@ export default function Table({orders, changeOrderStatus} : { orders: any, chang
                           </thead>
                           <tbody>
                             {
-                              selectedOrderItems.map((selectedOrderItem:any) => (
+                              selectedOrderItems.map((selectedOrderItem:selectedOrderItemProp) => (
                                 <tr key={selectedOrderItem.product.product_id}>
                                   <td>
                                     <img src={`data:image/png;base64,${selectedOrderItem.product.images?.[0]?.image || ""}`} 

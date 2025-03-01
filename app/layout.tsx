@@ -15,16 +15,21 @@ import HeaderDropdown from "./components/HeaderDropdown";
 import CartSidebar from "@/components/cart-sidebar/CartSidebar";
 import { ToastContainer } from 'react-toastify';
 
+// ✅ Import font using next/font/google
+import { Holtwood_One_SC } from "next/font/google";
+
+const holtwood = Holtwood_One_SC({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" className={holtwood.className}> 
+      {/* ✅ Apply font className here */}
       <body>
         <ToastContainer position="top-left" autoClose={2000} />
         <ClientProvider>
@@ -57,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
 
 // ✅ Move cart quantity logic to separate component
 function CartQuantity({ toggleCart }: { toggleCart: () => void }) {
