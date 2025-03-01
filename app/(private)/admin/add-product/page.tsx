@@ -7,7 +7,6 @@ import { RootState } from "@/redux/store";
 import { setCategories } from "@/redux/slices/categorySlice";
 import { setProducts } from "@/redux/slices/productSlice"; // Import setProducts action
 
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
