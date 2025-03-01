@@ -14,6 +14,7 @@ export async function POST(req: Request) {
     
     return NextResponse.json({ user_id: user.user_id }, { status: 200 });
   } catch (error) {
+    console.error("Error processing cart:", error); // ✅ Log the error
     return NextResponse.json({ error: "Failed to process user" }, { status: 500 });
   }
 }

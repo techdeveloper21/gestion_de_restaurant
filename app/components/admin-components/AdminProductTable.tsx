@@ -28,8 +28,8 @@ export default function AdminProductTable() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let storedCategories = localStorage.getItem("categories");
-      let storedProducts = localStorage.getItem("products");
+      const storedCategories = localStorage.getItem("categories");
+      const storedProducts = localStorage.getItem("products");
 
       if (storedCategories) {
         dispatch(setCategories(JSON.parse(storedCategories)));
@@ -69,7 +69,6 @@ export default function AdminProductTable() {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const handleDelete = async () => {

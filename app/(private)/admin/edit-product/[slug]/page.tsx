@@ -8,6 +8,9 @@ import { setCategories } from "@/redux/slices/categorySlice";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
 
+import Image from "next/image";
+
+
 export default function EditProduct() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -199,7 +202,13 @@ export default function EditProduct() {
             <div className="d-flex flex-wrap">
               {existingImages.map((image, index) => (
                 <div key={index} className="position-relative m-2">
-                  <img src={`data:image/png;base64,${image.image}`} alt="Product" className="rounded border shadow-sm" width="100" height="100" />
+                  <Image
+                    src={`data:image/png;base64,${image.image}`}
+                    alt="Product"
+                    width={100}
+                    height={100}
+                    className="rounded border shadow-sm"
+                  />
                   <button type="button" className="btn btn-sm btn-danger position-absolute top-0 end-0" onClick={() => removeExistingImage(index)}>
                     <i className="fa fa-times"></i>
                   </button>
@@ -208,7 +217,13 @@ export default function EditProduct() {
 
               {newImages.map((image, index) => (
                 <div key={index} className="position-relative m-2">
-                  <img src={URL.createObjectURL(image)} alt="New" className="rounded border shadow-sm" width="100" height="100" />
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    alt="New"
+                    width={100}
+                    height={100}
+                    className="rounded border shadow-sm"
+                  />
                   <button type="button" className="btn btn-sm btn-danger position-absolute top-0 end-0" onClick={() => removeNewImage(index)}>
                     <i className="fa fa-times"></i>
                   </button>

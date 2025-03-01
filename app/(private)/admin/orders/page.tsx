@@ -1,7 +1,7 @@
 'use client'
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { RootState } from "@/redux/store";
 import { setOrders, updateOrderStatusByOrderIndex } from "@/redux/slices/orderSlice";
 import Table from "../../../components/table/Table";
@@ -14,7 +14,7 @@ export default function OrdersPage() {
     
     const ordersList = useSelector((state: RootState) => state.orders.items);
 
-    function changeOrderAdminStatus(orderIndex:any){
+    function changeOrderAdminStatus(orderIndex: number){
       console.log("orderIndex");
       dispatch(updateOrderStatusByOrderIndex({ index: orderIndex }));
       
@@ -25,7 +25,7 @@ export default function OrdersPage() {
 
     useEffect(() => {
       const loadData = async () => {
-        let orders:any = ordersList;
+        let orders:typeof ordersList = ordersList
 
         if(orders.length == 0){
           const cachedOrders = localStorage.getItem('orders');
@@ -54,10 +54,9 @@ export default function OrdersPage() {
           }
         }
       }
-      setLoading(false);
       loadData();
       console.log(ordersList);
-    }, [ordersList]);
+    }, [ordersList, dispatch]);
 
 
     return (

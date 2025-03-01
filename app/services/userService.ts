@@ -2,6 +2,14 @@ import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { ResultSetHeader } from "mysql2";
 
+// Define User type
+interface User {
+  user_id: number;
+  username: string;
+  email: string;
+  password: string;
+  role: number;
+}
 
 export async function getUserByEmail(email: string) {
   const [user] = await db.query<any[]>("SELECT * FROM user WHERE email = ?", [email]);

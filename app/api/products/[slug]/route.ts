@@ -1,6 +1,5 @@
 import { deleteProductImage } from "@/services/productImageService";
 import { addImage, deleteProduct, getProductBySlug, linkProductImage, updateProduct } from "@/services/productService";
-import { Product } from "@/types/product";
 
 export async function GET(req: Request, { params }: { params: { slug: string } }) {
   console.log("Fetching product:", params.slug);

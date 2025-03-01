@@ -7,6 +7,8 @@ import { RootState } from "@/redux/store";
 import { setCategories } from "@/redux/slices/categorySlice";
 import { setProducts } from "@/redux/slices/productSlice"; // Import setProducts action
 
+import Image from "next/image";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -176,7 +178,13 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div className="d-flex flex-wrap">
             {previewImages.map((image, index) => (
               <div key={index} className="position-relative m-2">
-                <img src={image} alt={`Preview ${index}`} className="rounded border shadow-sm" width="100" height="100" />
+                <Image
+                  src={image}
+                  alt={`Preview ${index}`}
+                  width={100}
+                  height={100}
+                  className="rounded border shadow-sm"
+                />
                 <button type="button" className="btn btn-sm btn-danger position-absolute top-0 end-0" onClick={() => removeImage(index)}>
                   <i className="fa fa-times"></i>
                 </button>
