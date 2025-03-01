@@ -1,12 +1,15 @@
 "use client";
 import { useEffect } from "react";
 
- // Required for interactivity
+// Required for interactivity
 
 export default function HeaderDropdown() {
     useEffect(() => {
-        require("bootstrap/dist/js/bootstrap.bundle.min.js"); // Load Bootstrap JS once
+        import("bootstrap/dist/js/bootstrap.bundle.min.js") // ✅ Use dynamic `import()`
+            .then(() => console.log("Bootstrap JS loaded"))
+            .catch((err) => console.error("Error loading Bootstrap JS:", err));
     }, []);
+
     return (
       <div className="btn-group">
         <button type="button" className="btn btn-success">Username</button>

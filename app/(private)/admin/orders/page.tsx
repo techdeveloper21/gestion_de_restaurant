@@ -59,7 +59,7 @@ export default function OrdersPage() {
       }
       loadData();
       console.log(ordersList);
-    }, [ordersList]);
+    }, []); /// remove ordersList
 
 
     return (
