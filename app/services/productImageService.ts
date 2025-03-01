@@ -12,7 +12,7 @@ export async function getProductImages(product_slug: string) {
   return images;
 }
 
-export async function deleteProductImage(product_slug: String, image_id:any){
+export async function deleteProductImage(product_slug: string, image_id:any){
   const [deletedProdutImage] = await db.query(
     "DELETE FROM product_images WHERE product_slug = ? AND image_id = ?",
     [product_slug, image_id]

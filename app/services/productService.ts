@@ -1,6 +1,8 @@
 import db from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { Product } from "@/types/product";
+import { ResultSetHeader } from "mysql2";
+
 
 const CACHE_KEY = "products";
 
@@ -50,14 +52,14 @@ export async function getProducts(): Promise<Product[]> {
 // Insert product into database
 export async function addProduct(product: Product) {
 
-  const result = await db.query(
+  const [result] = await db.query<ResultSetHeader>(
     "INSERT INTO products (product_slug, product_name, description, price, category, status) VALUES (?, ?, ?, ?, ?, ?)",
     [product.product_slug, product.product_name, product.description, product.price, product.category, product.status]
   );
 
   await redis.del(CACHE_KEY); // Clear cache
 
-  return result[0].insertId; // Return generated product_id
+  return result.insertId; // Return generated product_id
 }
 
 export async function updateProduct(updates: Partial<Product>) {
@@ -67,7 +69,7 @@ export async function updateProduct(updates: Partial<Product>) {
   ///console.log(values);
 
   /// Update product information only product information  
-  const [result]: any = await db.query(
+  const [result] = await db.query<ResultSetHeader>(
     `UPDATE products SET ${updateKeys} WHERE product_slug = ?`,
     [...values, updates.product_slug]
   );
@@ -87,8 +89,8 @@ export async function deleteProduct(slug: string) {
 
 // Insert image into `images` table and return `image_id`
 export async function addImage(imageBuffer: Buffer) {
-  const result = await db.query("INSERT INTO images (image) VALUES (?)", [imageBuffer]);
-  return result[0].insertId; // Return image_id
+  const [result] = await db.query<ResultSetHeader>("INSERT INTO images (image) VALUES (?)", [imageBuffer]);
+  return result.insertId;
 }
 
 // Insert into `product_images` table (link image to product)
