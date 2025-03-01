@@ -14,11 +14,10 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
     <div className="thumbnail">
       {/* Product Image */}
       {product.images.length > 0 && (
-        <Image
+        <img
           src={`data:image/png;base64,${product.images[0].image}`}
           alt={product.product_name}
           className="product-img"
-          priority // Ensures the image loads quickly for better performance
         />
       )}
         <div className="price">${product.price}DA</div>
