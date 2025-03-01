@@ -1,6 +1,5 @@
 import React from "react";
 import { Product } from "@/types/product";
-import Image from "next/image";
 import "./product.css";
 import Link from "next/link"; // Import Link from Next.js
 
