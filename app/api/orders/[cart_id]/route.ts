@@ -1,17 +1,14 @@
+import { NextRequest } from "next/server";
 import { getCartItemsByCartId } from "@/services/cartService";
 import { getProductBySlug } from "@/services/productService";
 
-export async function GET(req, context) {
-    if (!context?.params?.cart_id) {
-        return Response.json({ error: "Missing cart ID" }, { status: 400 });
-    }
-
-    const cartId = parseInt(context.params.cart_id, 10); // Convert string to number
+export async function GET(req: NextRequest, { params }: { params: Record<string, string> }) {  
+    const cartId = parseInt(params.cart_id, 10); // Convert string to number
     if (isNaN(cartId)) return Response.json({ error: "Invalid cart ID" }, { status: 400 });
 
     console.log("Fetching orders products details:", cartId);
 
-    const cartItems = await getCartItemsByCartId(cartId);
+    const cartItems = await getCartItemsByCartId(cartId); 
     const result = [];
 
     if (cartItems) {
@@ -21,7 +18,7 @@ export async function GET(req, context) {
                 cart_id: cartId,
                 quantity: cartItem.quantity,
                 product: product
-            });
+            }); 
         }
     }
 

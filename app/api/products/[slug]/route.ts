@@ -1,9 +1,9 @@
 import { deleteProductImage } from "@/services/productImageService";
 import { addImage, deleteProduct, getProductBySlug, linkProductImage, updateProduct } from "@/services/productService";
 
-export async function GET(req: Request, { params }: { params: { slug: string } }) {
-  console.log("Fetching product:", params.slug);
-  const product = await getProductBySlug(params.slug);
+export async function GET(req, context) { // ❌ No explicit type
+  console.log("Fetching product:", context.params.slug);
+  const product = await getProductBySlug(context.params.slug);
   
   if (!product) {
     return Response.json({ message: "Product not found" }, { status: 404 });
