@@ -14,7 +14,7 @@ export async function getProducts(): Promise<Product[]> {
     console.log("Fetching from DB...");
   
     // Fetch products
-    const [products] = await db.query("SELECT * FROM products");
+    const [products] = await db.query<any[]>("SELECT * FROM products");
   
     // Fetch images for each product
     for (const product of products) {
@@ -33,7 +33,7 @@ export async function getProducts(): Promise<Product[]> {
 
   export async function getProductBySlug(slug: string): Promise<Product | null> {
     // Fetch product details
-    const [product] = await db.query("SELECT * FROM products WHERE product_slug = ?", [slug]);
+    const [product] = await db.query<any[]>("SELECT * FROM products WHERE product_slug = ?", [slug]);
   
     if (!product.length) return null;
   
