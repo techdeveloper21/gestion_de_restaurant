@@ -29,7 +29,7 @@ export default function OrdersPage() {
 
         if(orders.length == 0){
           const cachedOrders = localStorage.getItem('orders');
-          if(cachedOrders){
+          if(cachedOrders && cachedOrders.length > 0){
             orders = JSON.parse(cachedOrders);
             console.log("Loaded from Local Storage");
 
@@ -43,6 +43,9 @@ export default function OrdersPage() {
           try {
             const ordersResponse = await fetch("/api/orders");
             orders = await ordersResponse.json();
+
+            console.log('orders from orders page');
+            console.log(orders);
   
             // ✅ Save in Redux
             dispatch(setOrders(orders));
@@ -56,7 +59,7 @@ export default function OrdersPage() {
       }
       loadData();
       console.log(ordersList);
-    }, [ordersList, dispatch]);
+    }, [ordersList]);
 
 
     return (

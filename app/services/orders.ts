@@ -14,9 +14,11 @@ export async function getOrders() {
     if (cachedData) return JSON.parse(cachedData);
 
     // Fetch products
-    const orders = (await db.query("SELECT * FROM cart")) as unknown as Order[];
+    const [orders] = (await db.query("SELECT * FROM cart"));
     const ordersWithUsers: OrderWithUser[] = [];
 
+    console.log('orders');
+    console.log(orders);
     for(const order of orders){
         const user = await getUserById(order.user_id);
         if(user){

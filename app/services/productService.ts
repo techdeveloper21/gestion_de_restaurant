@@ -1,35 +1,44 @@
 import db from "@/lib/db";
 import { redis } from "@/lib/redis";
+import { ProductWithoutImages } from "@/types/ProductWithoutImages";
 import { Product } from "@/types/product";
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 
 const CACHE_KEY = "products";
 
 export async function getProducts(): Promise<Product[]> {
-    const cachedData = await redis.get(CACHE_KEY);
-    if (cachedData) return JSON.parse(cachedData);
-  
-    console.log("Products from getProducts");
-    console.log("Fetching from DB...");
-  
-    // Fetch products
-    const [products] = await db.query<any[]>("SELECT * FROM products");
-  
-    // Fetch images for each product
-    for (const product of products) {
-      const [images] = await db.query(
-        "SELECT product_images.image_id, TO_BASE64(image) AS image FROM product_images JOIN images ON product_images.image_id = images.image_id WHERE product_slug = ?",
-        [product.product_slug]
-      );
-      product.images = images; // Attach images to the product
-    }
-  
-    // Cache the result in Redis for 60 seconds
-    await redis.set(CACHE_KEY, JSON.stringify(products), "EX", 60);
-  
-    return products;
+  const cachedData = await redis.get(CACHE_KEY);
+  if (cachedData) return JSON.parse(cachedData);
+
+  console.log("Fetching from DB...");
+
+  // ✅ Fix: Explicitly define MySQL query result type
+  const [products] = await db.query<ProductWithoutImages[] & RowDataPacket[]>(
+    "SELECT * FROM products"
+  );
+
+  // ✅ Ensure images property exists before returning
+  const productsWithImages: Product[] = products.map((product) => ({
+    ...product,
+    images: [], // Initialize images array
+  }));
+
+  // Fetch images for each product
+  for (const product of productsWithImages) {
+    const [images] = await db.query<RowDataPacket[]>(
+      "SELECT product_images.image_id, TO_BASE64(image) AS image FROM product_images JOIN images ON product_images.image_id = images.image_id WHERE product_slug = ?",
+      [product.product_slug]
+    );
+
+    product.images = images as { image_id: number; image: string }[];
   }
+
+  // Cache the result in Redis for 60 seconds
+  await redis.set(CACHE_KEY, JSON.stringify(productsWithImages), "EX", 60);
+
+  return productsWithImages;
+}
 
   export async function getProductBySlug(slug: string): Promise<Product | null> {
     // Fetch product details
