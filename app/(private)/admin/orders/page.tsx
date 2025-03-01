@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { RootState } from "@/redux/store";
 import { setOrders, updateOrderStatusByOrderIndex } from "@/redux/slices/orderSlice";
-import Table from "@/components/Table/Table";
+import Table from "../../../components/table/Table";
 
 
 
