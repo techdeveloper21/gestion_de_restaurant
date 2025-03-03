@@ -98,7 +98,7 @@ export default function EditProduct() {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
       setNewImages([...newImages, ...newFiles]);
@@ -117,7 +117,7 @@ export default function EditProduct() {
     setNewImages(newImages.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (!selectedProduct) return;
 
