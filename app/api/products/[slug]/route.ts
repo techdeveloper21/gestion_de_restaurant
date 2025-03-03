@@ -12,10 +12,10 @@ export async function GET(req, context) { // ❌ No explicit type
   return Response.json(product);
 }
 
-export async function DELETE(req: Request, { params }: { params: { slug: string } }) {
-  console.log("Deleting product:", params.slug);
+export async function DELETE(req, context) {
+  console.log("Deleting product:", context.params.slug);
   
-  const product = await getProductBySlug(params.slug);
+  const product = await getProductBySlug(context.params.slug);
   if (!product) {
     return Response.json({ message: "Product not found" }, { status: 404 });
   }
