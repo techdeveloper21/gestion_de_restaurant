@@ -20,7 +20,7 @@ export default function EditProduct() {
   const products = useSelector((state: RootState) => state.products.items);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const [existingImages, setExistingImages] = useState([]);
+  const [existingImages, setExistingImages] = useState<{ image_id: number; image: string }[]>([]);
   const [newImages, setNewImages] = useState([]);
   const [deletedImages, setDeletedImages] = useState([]);
 
